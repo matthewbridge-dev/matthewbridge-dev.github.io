@@ -30,12 +30,14 @@ const experienceCollection = defineCollection({
 const educationCollection = defineCollection({
     type: 'content',
     schema: z.object({
-        degree: z.string(),
         institution: z.string(),
+        degree: z.string(),
         location: z.string(),
         startDate: z.string(),
         endDate: z.string().optional(),
         description: z.string().optional(),
+        accolades: z.array(z.string()).optional(),
+        extracurricular: z.array(z.string()).optional(),
     }),
 });
 
@@ -44,9 +46,10 @@ const projectsCollection = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
-        description: z.string().optional(),
-        technologies: z.array(z.string()).optional(),
-        featured: z.boolean().optional(),
+        description: z.string(),
+        technologies: z.array(z.string()),
+        url: z.string(),
+        featured: z.boolean().default(false),
     }),
 });
 
@@ -55,8 +58,8 @@ const blogCollection = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
-        description: z.string().optional(),
         date: z.string(),
         tags: z.array(z.string()).optional(),
+        content: z.string(),
     }),
 });
