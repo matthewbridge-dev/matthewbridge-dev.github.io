@@ -1,0 +1,40 @@
+---
+import ProjectCardFeatured from "./ProjectCardFeatured.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects");
+const featuredProjects = allProjects
+  .filter((project) => project.data.featured === true)
+  .slice(0, 3);
+---
+
+<section
+  class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-accent py-16 mt-0 mb-16 shadow-[0_0_30px_rgba(200,108,16,0.3)]"
+>
+  <div class="max-w-5xl mx-auto px-6">
+    <h2
+      class="text-3xl md:text-4xl font-bold text-bg-primary text-left mb-12 drop-shadow-sm"
+    >
+      Featured Projects
+    </h2>
+  </div>
+
+  <div class="w-full px-6 lg:px-24">
+    <div
+      class={`grid grid-cols-1 gap-8 ${featuredProjects.length === 2 ? "md:grid-cols-2 lg:gap-16" : "md:grid-cols-3"}`}
+    >
+      {
+        featuredProjects.map((project) => (
+          <ProjectCardFeatured
+            imagePath={project.data.imagePath || "/missing-project.jpg"}
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.technologies || []}
+            githubUrl={project.data.repo}
+            demoUrl={project.data.demo}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

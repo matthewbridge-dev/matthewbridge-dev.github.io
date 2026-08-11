@@ -6,6 +6,8 @@ technologies:
   - "C#"
   - "AI Logic"
   - "GOAP"
-url: "https://github.com/matthewbridge-dev"
+repo: "https://github.com/matthewbridge-dev"
+demo: ""
+imagePath: ""
 featured: true
 ---

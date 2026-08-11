@@ -6,6 +6,8 @@ technologies:
   - "OpenCV"
   - "Computer Vision"
   - "Face Recognition"
-url: "https://github.com/matthewbridge-dev"
+repo: "https://github.com/matthewbridge-dev"
+demo: ""
+imagePath: ""
 featured: true
 ---

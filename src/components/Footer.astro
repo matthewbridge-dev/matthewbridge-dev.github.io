@@ -1,0 +1,18 @@
+---
+import ContactButton from "./ContactButton.astro";
+const currentYear = new Date().getFullYear();
+import * as aboutFile from "../content/about/about.md";
+import "../styles/global.css";
+const { name, title, about, phone, email, linkedin, github } =
+  aboutFile.frontmatter;
+---
+
+<footer class="w-full border-t border-bg-secondary bg-bg-secondary mt-auto">
+  <div class="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div class="text-text-muted text-sm">
+      <p>&copy; {currentYear} {name}.</p>
+    </div>
+
+    <div class="flex items-center gap-4"></div>
+  </div>
+</footer>
