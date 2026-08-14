@@ -8,6 +8,6 @@ technologies:
   - "Face Recognition"
 repo: "https://github.com/matthewbridge-dev"
 demo: ""
-imagePath: ""
+imagePath: "/attendancecomputervision.png"
 featured: true
 ---

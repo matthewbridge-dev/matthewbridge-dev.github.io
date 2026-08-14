@@ -1,24 +1,82 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ExperienceCard from "../components/experience/ExperienceCard.astro";
+import EducationCard from "../components/experience/EducationCard.astro";
+import { getCollection } from "astro:content";
+
+// 1. Fetch the raw data
+const rawExperience = await getCollection("experience");
+const rawEducation = await getCollection("education");
+
+// 2. Create a reusable sorting function
+// FIX: Added ": any" to 'a' and 'b' to satisfy Astro's strict TypeScript rules!
+const sortDescByEndDate = (a: any, b: any) => {
+  const dateA =
+    !a.data.endDate || a.data.endDate.toLowerCase() === "present"
+      ? new Date().getTime()
+      : new Date(a.data.endDate).getTime();
+
+  const dateB =
+    !b.data.endDate || b.data.endDate.toLowerCase() === "present"
+      ? new Date().getTime()
+      : new Date(b.data.endDate).getTime();
+
+  if (dateB === dateA) {
+    const startA = new Date(a.data.startDate).getTime();
+    const startB = new Date(b.data.startDate).getTime();
+    return startB - startA;
+  }
+
+  return dateB - dateA;
+};
+
+// 3. Apply the sort!
+const sortedExperience = rawExperience.sort(sortDescByEndDate);
+const sortedEducation = rawEducation.sort(sortDescByEndDate);
 ---
+
 <BaseLayout>
-<div class="max-w-5xl mx-auto px-6 py-12">
-  
-  <section class="mb-12">
-    <h2 class="text-2xl font-bold text-text-primary mb-4">Experience</h2>
-    <div class="bg-bg-secondary p-6 rounded-xl border border-border-subtle">
-      <h3>IT Support Specialist</h3>
-      <p>Fixed all the computers.</p>
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <h1 class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left">
+      Education
+    </h1>
+    <div class={`grid grid-cols-1 gap-8`}>
+      {
+        /* FIX: Changed allEducation to sortedEducation */
+        sortedEducation.map((education) => (
+          <EducationCard
+            institution={education.data.institution}
+            degree={education.data.degree}
+            location={education.data.location}
+            startDate={education.data.startDate}
+            endDate={education.data.endDate}
+            description={education.data.description}
+            accolades={education.data.accolades || []}
+            extracurricular={education.data.extracurricular || []}
+          />
+        ))
+      }
     </div>
-  </section>
 
-  <section>
-    <h2 class="text-2xl font-bold text-text-primary mb-4">Education</h2>
-    <div class="bg-bg-secondary p-6 rounded-xl border border-border-subtle">
-      <h3>Computer Science</h3>
-      <p>University Name</p>
+    <h1
+      class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left mt-16"
+    >
+      Experience
+    </h1>
+    <div class={`grid grid-cols-1 gap-8`}>
+      {
+        /* FIX: Changed allExperience to sortedExperience */
+        sortedExperience.map((experience) => (
+          <ExperienceCard
+            company={experience.data.company}
+            title={experience.data.title}
+            location={experience.data.location}
+            startDate={experience.data.startDate}
+            endDate={experience.data.endDate}
+            description={experience.data.description}
+          />
+        ))
+      }
     </div>
-  </section>
-
-</div>
+  </div>
 </BaseLayout>

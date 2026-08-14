@@ -6,9 +6,11 @@ import ContactCard from "../components/about/ContactCard.astro";
 ---
 
 <BaseLayout>
-  <main class="max-w-5xl mx-auto px-6 pt-0 pb-0">
+  <div class="max-w-5xl mx-auto px-6">
     <AboutMe />
-    <FeaturedProjects />
+  </div>
+  <FeaturedProjects />
+  <div class="max-w-5xl mx-auto px-6">
     <ContactCard />
-  </main>
+  </div>
 </BaseLayout>

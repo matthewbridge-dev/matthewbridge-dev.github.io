@@ -9,17 +9,17 @@ const featuredProjects = allProjects
 ---
 
 <section
-  class="w-screen relative left-1/2 right-1/2 -mx-[50vw] bg-accent py-16 mt-0 mb-16 shadow-[0_0_30px_rgba(200,108,16,0.3)]"
+  class="w-full bg-accent py-8 mt-0 mb-0 shadow-[0_0_30px_rgba(200,108,16,0.3)]"
 >
   <div class="max-w-5xl mx-auto px-6">
     <h2
-      class="text-3xl md:text-4xl font-bold text-bg-primary text-left mb-12 drop-shadow-sm"
+      class="text-3xl md:text-4xl font-bold text-bg-primary text-center mb-8 drop-shadow-sm"
     >
       Featured Projects
     </h2>
   </div>
 
-  <div class="w-full px-6 lg:px-24">
+  <div class="w-full px-4 lg:px-8">
     <div
       class={`grid grid-cols-1 gap-8 ${featuredProjects.length === 2 ? "md:grid-cols-2 lg:gap-16" : "md:grid-cols-3"}`}
     >
@@ -35,6 +35,15 @@ const featuredProjects = allProjects
           />
         ))
       }
+    </div>
+
+    <div class="mt-8 w-full flex justify-center">
+      <a
+        href="/projects"
+        class="inline-block px-8 py-3 text-base font-bold bg-bg-primary text-text-muted rounded-xl shadow-xl transition-all duration-300 hover:text-text-primary hover:shadow-2xl border border-white/5"
+      >
+        View All Projects
+      </a>
     </div>
   </div>
 </section>

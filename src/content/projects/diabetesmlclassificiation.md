@@ -9,6 +9,6 @@ technologies:
   - "Logistic Regression"
 repo: "https://github.com/matthewbridge-dev"
 demo: ""
-imagePath: ""
+imagePath: "/diabetesmlclassification.png"
 featured: true
 ---

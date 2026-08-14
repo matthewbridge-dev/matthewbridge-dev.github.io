@@ -1,0 +1,53 @@
+---
+export interface Props {
+  company: string;
+  title: string;
+  location: string;
+  startDate: string;
+  endDate?: string;
+  description?: string;
+}
+
+const {
+  company,
+  title,
+  location,
+  startDate,
+  endDate = "Present",
+  description,
+} = Astro.props;
+---
+
+<article
+  class="bg-bg-primary border border-white/10 rounded-2xl p-6 md:p-8 shadow-lg transition-all hover:border-accent/30"
+>
+  <div class="flex flex-col md:flex-row md:justify-between md:items-start mb-4">
+    <div>
+      <h3 class="text-xl md:text-2xl font-bold text-text-primary">
+        {title}
+      </h3>
+      <h4 class="text-lg font-medium text-accent mt-1">
+        {company}
+      </h4>
+    </div>
+
+    <div class="mt-2 md:mt-0 text-left md:text-right">
+      <span
+        class="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs font-medium text-slate-300 mb-2"
+      >
+        {startDate} — {endDate}
+      </span>
+      <p class="text-sm text-slate-400">
+        {location}
+      </p>
+    </div>
+  </div>
+
+  {
+    description && (
+      <div class="text-slate-300 text-sm md:text-base leading-relaxed prose prose-invert max-w-none">
+        <p>{description}</p>
+      </div>
+    )
+  }
+</article>

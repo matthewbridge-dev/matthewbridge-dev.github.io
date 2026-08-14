@@ -1,5 +1,36 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/projects/ProjectCard.astro";
+import { getCollection } from "astro:content";
+const allProjects = await getCollection("projects");
 ---
+
 <BaseLayout>
+  <div class="max-w-5xl mx-auto px-6 py-8">
+    <h1 class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left">
+      Projects
+    </h1>
+
+    <p
+      class="text-base md:text-lg font-normal text-text-muted mb-6 text-left max-w-5xl"
+    >
+      Exploring complex problems through code. Here is a selection of my recent
+      applications, experiments, and technical deep-dives.
+    </p>
+
+    <div class="grid grid-cols-1 gap-12">
+      {
+        allProjects.map((project) => (
+          <ProjectCard
+            imagePath={project.data.imagePath || "/missing-project.jpg"}
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.technologies || []}
+            githubUrl={project.data.repo}
+            demoUrl={project.data.demo}
+          />
+        ))
+      }
+    </div>
+  </div>
 </BaseLayout>
