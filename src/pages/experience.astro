@@ -2,81 +2,126 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ExperienceCard from "../components/experience/ExperienceCard.astro";
 import EducationCard from "../components/experience/EducationCard.astro";
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
-// 1. Fetch the raw data
 const rawExperience = await getCollection("experience");
 const rawEducation = await getCollection("education");
 
-// 2. Create a reusable sorting function
-// FIX: Added ": any" to 'a' and 'b' to satisfy Astro's strict TypeScript rules!
-const sortDescByEndDate = (a: any, b: any) => {
-  const dateA =
-    !a.data.endDate || a.data.endDate.toLowerCase() === "present"
-      ? new Date().getTime()
-      : new Date(a.data.endDate).getTime();
-
-  const dateB =
-    !b.data.endDate || b.data.endDate.toLowerCase() === "present"
-      ? new Date().getTime()
-      : new Date(b.data.endDate).getTime();
-
-  if (dateB === dateA) {
-    const startA = new Date(a.data.startDate).getTime();
-    const startB = new Date(b.data.startDate).getTime();
-    return startB - startA;
+function parseDateScore(dateStr?: string): number {
+  if (!dateStr || dateStr.toLowerCase().includes("present")) {
+    return Number.MAX_SAFE_INTEGER;
   }
+  const cleaned = dateStr
+    .replace(/^(est\.?|expected|anticipated)\s+/i, "")
+    .replace(/\./g, "")
+    .trim();
+  const parsed = new Date(cleaned).getTime();
+  return isNaN(parsed) ? 0 : parsed;
+}
 
-  return dateB - dateA;
-};
+const sortedExperience = rawExperience.sort(
+  (a: CollectionEntry<"experience">, b: CollectionEntry<"experience">) => {
+    const endA = parseDateScore(a.data.endDate);
+    const endB = parseDateScore(b.data.endDate);
+    if (endB !== endA) return endB - endA;
+    return parseDateScore(b.data.startDate) - parseDateScore(a.data.startDate);
+  },
+);
 
-// 3. Apply the sort!
-const sortedExperience = rawExperience.sort(sortDescByEndDate);
-const sortedEducation = rawEducation.sort(sortDescByEndDate);
+const sortedEducation = rawEducation.sort(
+  (a: CollectionEntry<"education">, b: CollectionEntry<"education">) => {
+    const endA = parseDateScore(a.data.endDate);
+    const endB = parseDateScore(b.data.endDate);
+    if (endB !== endA) return endB - endA;
+    return parseDateScore(b.data.startDate) - parseDateScore(a.data.startDate);
+  },
+);
 ---
 
-<BaseLayout>
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <h1 class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left">
-      Education
-    </h1>
-    <div class={`grid grid-cols-1 gap-8`}>
-      {
-        /* FIX: Changed allEducation to sortedEducation */
-        sortedEducation.map((education) => (
-          <EducationCard
-            institution={education.data.institution}
-            degree={education.data.degree}
-            location={education.data.location}
-            startDate={education.data.startDate}
-            endDate={education.data.endDate}
-            description={education.data.description}
-            accolades={education.data.accolades || []}
-            extracurricular={education.data.extracurricular || []}
-          />
-        ))
-      }
+<BaseLayout
+  title="Education & Experience"
+  description="Academic background in Computer Science, engineering roles, and technical timeline for Matthew Bridge."
+>
+  <div class="theme-container py-12">
+    <div class="mb-12">
+      <h1
+        class="text-3xl md:text-5xl font-bold text-text-primary tracking-tight mb-4"
+      >
+        Education & Experience
+      </h1>
+      <p class="text-base md:text-lg text-text-muted max-w-2xl">
+        A chronicle of my academic background in Computer Science, followed by
+        my hands-on engineering roles and technical mentorship work.
+      </p>
     </div>
 
-    <h1
-      class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left mt-16"
-    >
-      Experience
-    </h1>
-    <div class={`grid grid-cols-1 gap-8`}>
-      {
-        /* FIX: Changed allExperience to sortedExperience */
-        sortedExperience.map((experience) => (
-          <ExperienceCard
-            company={experience.data.company}
-            title={experience.data.title}
-            location={experience.data.location}
-            startDate={experience.data.startDate}
-            endDate={experience.data.endDate}
-            description={experience.data.description}
-          />
-        ))
-      }
-    </div>
+    <!-- Education Section (First) -->
+    <section class="mb-16">
+      <div class="flex items-center gap-3 mb-6">
+        <h2
+          class="text-2xl md:text-3xl font-bold text-text-primary tracking-tight"
+        >
+          Education
+        </h2>
+        <span
+          class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface border border-white/10 text-text-muted"
+        >
+          {sortedEducation.length} degrees
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 theme-card-grid">
+        {
+          sortedEducation.map((edu) => (
+            <EducationCard
+              institution={edu.data.institution}
+              degree={edu.data.degree}
+              location={edu.data.location}
+              startDate={edu.data.startDate}
+              endDate={edu.data.endDate}
+              gpa={edu.data.gpa}
+              description={edu.data.description}
+              coursework={edu.data.coursework || []}
+              accolades={edu.data.accolades || []}
+              extracurricular={edu.data.extracurricular || []}
+            />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Experience Section (Second) -->
+    <section>
+      <div class="flex items-center gap-3 mb-6">
+        <h2
+          class="text-2xl md:text-3xl font-bold text-text-primary tracking-tight"
+        >
+          Work Experience
+        </h2>
+        <span
+          class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface border border-white/10 text-text-muted"
+        >
+          {sortedExperience.length} positions
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 theme-card-grid">
+        {
+          sortedExperience.map((exp) => (
+            <ExperienceCard
+              company={exp.data.company}
+              title={exp.data.title}
+              location={exp.data.location}
+              startDate={exp.data.startDate}
+              endDate={exp.data.endDate}
+              isCurrent={exp.data.isCurrent}
+              description={exp.data.description}
+              skills={exp.data.skills || []}
+              highlights={exp.data.highlights || []}
+            />
+          ))
+        }
+      </div>
+    </section>
   </div>
 </BaseLayout>

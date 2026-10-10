@@ -7,7 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 // https://astro.build/config
 export default defineConfig({
   // Hardcode your production domain directly here
-  site: "https://matthewbridge-dev.github.io",
+  site: "https://matthewbridge.com",
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],

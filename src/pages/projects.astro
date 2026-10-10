@@ -2,32 +2,42 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "../components/projects/ProjectCard.astro";
 import { getCollection } from "astro:content";
+
 const allProjects = await getCollection("projects");
 ---
 
-<BaseLayout>
-  <div class="max-w-5xl mx-auto px-6 py-8">
-    <h1 class="text-3xl md:text-5xl font-bold text-text-primary mb-4 text-left">
-      Projects
-    </h1>
+<BaseLayout
+  title="Projects"
+  description="Explore technical projects by Matthew Bridge, including computer vision attendance systems, Unity GOAP simulations, and machine learning models."
+>
+  <div class="theme-container py-12">
+    <div class="mb-10">
+      <h1
+        class="text-3xl md:text-5xl font-bold text-text-primary tracking-tight mb-4"
+      >
+        Projects
+      </h1>
 
-    <p
-      class="text-base md:text-lg font-normal text-text-muted mb-6 text-left max-w-5xl"
-    >
-      Exploring complex problems through code. Here is a selection of my recent
-      applications, experiments, and technical deep-dives.
-    </p>
+      <p class="text-base md:text-lg font-normal text-text-muted max-w-2xl">
+        Exploring complex problems through code. Here is a selection of my
+        applications, autonomous simulations, and machine learning models.
+      </p>
+    </div>
 
-    <div class="grid grid-cols-1 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 theme-card-grid">
       {
         allProjects.map((project) => (
           <ProjectCard
-            imagePath={project.data.imagePath || "/missing-project.jpg"}
+            imagePath={project.data.imagePath || "/placeholder-project.svg"}
             title={project.data.title}
+            date={project.data.date}
+            role={project.data.role}
             description={project.data.description}
             tags={project.data.technologies || []}
             githubUrl={project.data.repo}
             demoUrl={project.data.demo}
+            isPrivate={project.data.isPrivate}
+            privateNote={project.data.privateNote}
           />
         ))
       }

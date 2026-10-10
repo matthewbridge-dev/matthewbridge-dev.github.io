@@ -9,9 +9,11 @@ const about = defineCollection({
     title: z.string(),
     about: z.string(),
     email: z.string(),
-    phone: z.string(),
-    github: z.string(),
-    linkedin: z.string(),
+    phone: z.string().optional(),
+    github: z.string().optional(),
+    githubusername: z.string().optional(),
+    linkedin: z.string().optional(),
+    linkedinusername: z.string().optional(),
   }),
 });
 
@@ -24,7 +26,10 @@ const experience = defineCollection({
     location: z.string(),
     startDate: z.string(),
     endDate: z.string().optional(),
+    isCurrent: z.boolean().optional(),
     description: z.string().optional(),
+    skills: z.array(z.string()).optional(),
+    highlights: z.array(z.string()).optional(),
   }),
 });
 
@@ -37,7 +42,9 @@ const education = defineCollection({
     location: z.string(),
     startDate: z.string(),
     endDate: z.string().optional(),
+    gpa: z.string().optional(),
     description: z.string().optional(),
+    coursework: z.array(z.string()).optional(),
     accolades: z.array(z.string()).optional(),
     extracurricular: z.array(z.string()).optional(),
   }),
@@ -49,21 +56,15 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    date: z.string().optional(),
+    role: z.string().optional(),
     technologies: z.array(z.string()),
-    repo: z.string(),
-    demo: z.string(),
-    imagePath: z.string(),
+    repo: z.string().optional(),
+    demo: z.string().optional(),
+    imagePath: z.string().optional().default("/placeholder-project.svg"),
     featured: z.boolean().default(false),
-  }),
-});
-
-// Blog Collection
-const blog = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    tags: z.array(z.string()).optional(),
+    isPrivate: z.boolean().default(false),
+    privateNote: z.string().optional(),
   }),
 });
 
@@ -73,5 +74,4 @@ export const collections = {
   experience,
   education,
   projects,
-  blog,
 };

@@ -2,7 +2,19 @@
 title: "IT Support Specialist"
 company: "Master Millwork"
 location: "Wareham, Massachusetts"
-startDate: "Jun. 2022"
+startDate: "June 2022"
 endDate: "Aug. 2023"
-description: "Coordinated with an external MSP to deliver technical support for 90+ local and remote end users. Administered Microsoft 365 and Windows Server environments, and established an internal help desk ticketing system to track incident resolution and document standard operating procedures."
+isCurrent: false
+skills:
+  - "Microsoft 365"
+  - "Windows Server"
+  - "Active Directory"
+  - "Network Diagnostics"
+  - "MSP Collaboration"
+  - "Help Desk"
+highlights:
+  - "Delivered end-user and infrastructure support for 90+ endpoints across Microsoft 365, Active Directory, and Windows Server."
+  - "Collaborated with external Managed Service Provider (MSP) engineers to diagnose network outages and replace hardware components."
+  - "Instituted standardized ticketing procedures and authored troubleshooting documentation for routine support requests."
+description: "Managed internal IT operations and endpoint administration across an architectural millwork facility, ensuring reliable system uptime for 90+ workstations and network assets."
 ---

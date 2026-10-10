@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://matthewbridge.com/sitemap-index.xml

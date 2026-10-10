@@ -1,5 +1,5 @@
 ---
-import ProjectCardFeatured from "./ProjectCardFeatured.astro";
+import ProjectCard from "../projects/ProjectCard.astro";
 import { getCollection } from "astro:content";
 
 const allProjects = await getCollection("projects");
@@ -9,29 +9,47 @@ const featuredProjects = allProjects
 ---
 
 <section
-  class="w-full bg-accent py-8 mt-0 mb-0 shadow-[0_0_30px_rgba(200,108,16,0.3)]"
+  class="w-full theme-section mt-0 mb-0 border-t border-b border-white/10 bg-surface/40 relative overflow-hidden z-10"
 >
-  <div class="max-w-5xl mx-auto px-6">
-    <h2
-      class="text-3xl md:text-4xl font-bold text-bg-primary text-center mb-8 drop-shadow-sm"
-    >
-      Featured Projects
-    </h2>
+  <!-- Ambient sky-blue radial glow at top of section -->
+  <div
+    class="absolute inset-0 bg-[radial-gradient(ellipse_80%_40%_at_50%_0%,rgba(56,189,248,0.08),rgba(255,255,255,0))] pointer-events-none"
+  >
   </div>
 
-  <div class="w-full px-4 lg:px-8">
+  <div class="theme-container relative z-10">
+    <div class="text-center mb-8">
+      <h2
+        class="text-3xl md:text-4xl font-bold text-text-primary tracking-tight"
+      >
+        Featured Projects
+      </h2>
+      <p class="text-text-muted text-sm md:text-base max-w-xl mx-auto mt-2">
+        A selection of technical projects spanning autonomous agents, machine
+        learning, and computer vision.
+      </p>
+    </div>
+
     <div
-      class={`grid grid-cols-1 gap-8 ${featuredProjects.length === 2 ? "md:grid-cols-2 lg:gap-16" : "md:grid-cols-3"}`}
+      class={`grid grid-cols-1 theme-card-grid ${
+        featuredProjects.length === 2
+          ? "md:grid-cols-2"
+          : "md:grid-cols-2 lg:grid-cols-3"
+      }`}
     >
       {
         featuredProjects.map((project) => (
-          <ProjectCardFeatured
-            imagePath={project.data.imagePath || "/missing-project.jpg"}
+          <ProjectCard
+            imagePath={project.data.imagePath || "/placeholder-project.svg"}
             title={project.data.title}
+            date={project.data.date}
+            role={project.data.role}
             description={project.data.description}
             tags={project.data.technologies || []}
             githubUrl={project.data.repo}
             demoUrl={project.data.demo}
+            isPrivate={project.data.isPrivate}
+            privateNote={project.data.privateNote}
           />
         ))
       }
@@ -40,9 +58,21 @@ const featuredProjects = allProjects
     <div class="mt-8 w-full flex justify-center">
       <a
         href="/projects"
-        class="inline-block px-8 py-3 text-base font-bold bg-bg-primary text-text-muted rounded-xl shadow-xl transition-all duration-300 hover:text-text-primary hover:shadow-2xl border border-white/5"
+        class="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-text-primary bg-surface-elevated hover:bg-surface-hover border border-white/10 hover:border-accent/40 rounded-xl transition-all duration-200 shadow-md group"
       >
-        View All Projects
+        <span>View All Projects</span>
+        <svg
+          class="w-4 h-4 text-accent transition-transform group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
       </a>
     </div>
   </div>
