@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import AboutMe from "../components/about/AboutMe.astro";
+import FeaturedProjects from "../components/about/FeaturedProjects.astro";
+import ContactCard from "../components/about/ContactCard.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="About Matthew Bridge - Computer Science student concentrating in AI systems, machine learning, and full-stack software engineering."
+>
+  <div class="theme-container pb-0">
+    <AboutMe />
+  </div>
+  <FeaturedProjects />
+  <div class="theme-container">
+    <ContactCard />
+  </div>
+</BaseLayout>

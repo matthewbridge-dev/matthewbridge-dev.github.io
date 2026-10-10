@@ -1,70 +1,158 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
-@plugin "daisyui" {
-  themes: business, night; 
+
+/* ==========================================================================
+   CENTRAL THEMING SYSTEM
+   Adjust site-wide colors, padding, section spacing, and sizes in one place.
+   ========================================================================== */
+:root {
+  /* --- SPACING & SIZING CONFIGURATION --- */
+  --theme-container-max: 64rem; /* Max container width (1024px) */
+  --theme-container-px: 1.5rem; /* Container horizontal padding (24px) */
+
+  --theme-section-py: 3rem; /* Section vertical padding (48px, tightened from 72px) */
+  --theme-section-gap: 2rem; /* Spacing between major sections */
+
+  --theme-hero-pt: 2.5rem; /* Hero top padding (40px) */
+  --theme-hero-gap: 3rem; /* Gap between hero text and profile photo */
+  --theme-profile-h: 505px; /* Display height of profile photo on desktop (matches text column height) */
+  --theme-profile-max-h: 505px; /* Max display height of profile photo */
+  --theme-profile-h-tablet: 460px; /* Tablet photo height */
+  --theme-profile-max-h-tablet: 460px; /* Tablet max display height */
+  --theme-profile-h-mobile: 380px; /* Mobile photo height */
+  --theme-profile-max-h-mobile: 380px; /* Mobile max display height */
+
+  --theme-card-p: 1.75rem; /* Inner padding of cards (28px) */
+  --theme-card-gap: 1.75rem; /* Grid gap between cards (28px) */
+  --theme-card-radius: 1rem; /* Corner radius of cards (16px) */
+
+  --theme-header-h: 4rem; /* Height of navigation header (64px) */
+  --theme-footer-py: 2.25rem; /* Footer vertical padding (36px) */
+
+  /* --- COLOR PALETTE (TAILORED TO LIGHT BLUE SHIRT & BRONZE TIE) --- */
+  --theme-color-bg: #090d12; /* Deep slate obsidian canvas */
+  --theme-color-surface: #10151f; /* Elevated surface for cards/header/footer */
+  --theme-color-surface-elevated: #161e2b; /* Elevated surface on hover */
+  --theme-color-surface-hover: #1c2738; /* Interactive hover highlight */
+
+  --theme-color-accent: #38bdf8; /* Sky Blue / Azure primary accent (shirt match) */
+  --theme-color-accent-hover: #0ea5e9; /* Deep Sky Blue on hover */
+  --theme-color-accent-subtle: rgba(
+    56,
+    189,
+    248,
+    0.12
+  ); /* Subtle blue pill backgrounds */
+  --theme-color-accent-glow: rgba(
+    56,
+    189,
+    248,
+    0.25
+  ); /* Ambient backlight glow */
+
+  --theme-color-accent-tie: #d97706; /* Warm bronze / amber secondary accent (tie match) */
+  --theme-color-accent-tie-subtle: rgba(217, 119, 6, 0.12);
+
+  --theme-color-text-primary: #f8fafc; /* Crisp high-contrast white */
+  --theme-color-text-muted: #94a3b8; /* Clean neutral slate for body & captions */
+
+  --theme-color-border: rgba(255, 255, 255, 0.08); /* Subtle border */
+  --theme-color-border-hover: rgba(
+    56,
+    189,
+    248,
+    0.4
+  ); /* Sky blue border on hover */
 }
 
 @theme {
-  --default-font-family: "Inter", var(--font-sans);
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Theme tokens bound to central variables */
+  --color-background: var(--theme-color-bg);
+  --color-surface: var(--theme-color-surface);
+  --color-surface-elevated: var(--theme-color-surface-elevated);
+  --color-surface-hover: var(--theme-color-surface-hover);
+
+  --color-accent: var(--theme-color-accent);
+  --color-accent-hover: var(--theme-color-accent-hover);
+  --color-accent-subtle: var(--theme-color-accent-subtle);
+  --color-accent-glow: var(--theme-color-accent-glow);
+
+  --color-accent-tie: var(--theme-color-accent-tie);
+  --color-accent-tie-subtle: var(--theme-color-accent-tie-subtle);
+
+  --color-text-primary: var(--theme-color-text-primary);
+  --color-text-muted: var(--theme-color-text-muted);
+
+  --color-border-subtle: var(--theme-color-border);
+  --color-border-hover: var(--theme-color-border-hover);
+
+  /* Legacy aliases for backward compatibility */
+  --color-bg-primary: var(--theme-color-bg);
+  --color-bg-secondary: var(--theme-color-surface);
 }
 
-@layer components {
-  .fancy-highlight {
-    @apply rounded-md bg-[var(--color-base-300)]/30 underline decoration-[var(--color-accent)] decoration-2 underline-offset-4 backdrop-blur-2xl;
-  }
+/* ==========================================================================
+   CENTRAL UTILITY CLASSES
+   Apply these classes across components for consistent spacing.
+   ========================================================================== */
+.theme-container {
+  max-width: var(--theme-container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--theme-container-px);
+  padding-right: var(--theme-container-px);
+  width: 100%;
+}
 
-  .primary-badge {
-    @apply badge badge-soft;
-  }
+.theme-section {
+  padding-top: var(--theme-section-py);
+  padding-bottom: var(--theme-section-py);
+}
 
-  .primary-underline {
-    @apply underline decoration-[var(--color-primary)] decoration-2 underline-offset-4;
+.theme-card {
+  padding: var(--theme-card-p);
+  border-radius: var(--theme-card-radius);
+}
+
+.theme-card-grid {
+  gap: var(--theme-card-gap);
+}
+
+.theme-profile-photo {
+  height: var(--theme-profile-h-mobile);
+  max-height: var(--theme-profile-max-h-mobile);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@media (min-width: 640px) {
+  .theme-profile-photo {
+    height: var(--theme-profile-h-tablet);
+    max-height: var(--theme-profile-max-h-tablet);
+    max-width: 100%;
   }
 }
 
-@layer base {
-  h1 {
-    @apply my-1 text-3xl font-bold;
-  }
-
-  h2 {
-    @apply my-1 text-2xl font-bold;
-  }
-
-  h3 {
-    @apply text-lg font-medium;
-  }
-
-  h4 {
-    @apply font-medium;
-  }
-
-  h5 {
-    @apply text-sm font-medium;
-  }
-
-  h6 {
-    @apply text-xs font-medium;
-  }
-
-  p {
-    @apply leading-7;
-  }
-
-  u,
-  a {
-    @apply text-base-content;
+@media (min-width: 768px) {
+  .theme-profile-photo {
+    height: var(--theme-profile-h);
+    max-height: var(--theme-profile-max-h);
+    max-width: none;
   }
 }
 
-html[data-theme="dark"] {
-  & .astro-code,
-  & .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
-    /* Optional, if you also want font styles */
-    font-style: var(--shiki-dark-font-style) !important;
-    font-weight: var(--shiki-dark-font-weight) !important;
-    text-decoration: var(--shiki-dark-text-decoration) !important;
-  }
+html {
+  font-family: var(--font-sans);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  min-height: 100vh;
 }

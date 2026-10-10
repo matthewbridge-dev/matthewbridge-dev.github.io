@@ -1,0 +1,109 @@
+---
+import { getEntry } from "astro:content";
+
+const aboutEntry = await getEntry("about", "about");
+if (!aboutEntry) {
+  throw new Error("Could not find about entry in src/content/about/about.md");
+}
+const { name, title, about } = aboutEntry.data;
+---
+
+<div
+  class="flex flex-col md:flex-row items-center md:items-end justify-between gap-8 md:gap-12 pt-10 md:pt-14 pb-0 relative"
+>
+  <!-- Left text column: naturally spaced with comfortable bottom breathing room -->
+  <div
+    class="w-full md:flex-1 text-center md:text-left flex flex-col justify-center pb-8 md:pb-12"
+  >
+    <h1
+      class="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-text-primary mb-3 tracking-tight leading-[1.15]"
+    >
+      Hi, I'm{" "}
+      <span
+        class="text-transparent bg-clip-text bg-gradient-to-r from-accent via-sky-300 to-sky-100"
+      >
+        {name}
+      </span>
+    </h1>
+
+    <h2
+      class="text-lg sm:text-xl font-semibold text-accent/90 mb-4 tracking-normal"
+    >
+      {title}
+    </h2>
+
+    <p
+      class="text-base sm:text-lg text-text-muted leading-relaxed max-w-xl mx-auto md:mx-0 mb-8"
+    >
+      {about}
+    </p>
+
+    <div
+      class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
+    >
+      <a
+        href="#contact"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-bold text-background bg-accent hover:bg-accent-hover transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-accent/30 hover:-translate-y-0.5"
+      >
+        <span>Let's Connect</span>
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+        </svg>
+      </a>
+
+      <a
+        href="/Matthew_Bridge_Resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm font-semibold text-text-primary bg-surface hover:bg-surface-elevated border border-white/10 hover:border-accent/40 transition-all duration-200 hover:-translate-y-0.5 shadow-md"
+      >
+        <svg
+          class="w-4 h-4 text-text-muted"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          ></path>
+        </svg>
+        <span>Download Resume</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Right image column: sitting flush on the section baseline with waist emerging from the border -->
+  <div
+    class="w-full md:w-auto shrink-0 flex items-end justify-center md:justify-end mb-0 pb-0 self-end overflow-visible"
+  >
+    <div class="relative group flex items-end mb-0 pb-0">
+      <!-- Soft ambient backlight centered behind shoulders/head -->
+      <div
+        class="absolute inset-x-0 top-0 bottom-6 bg-gradient-to-t from-transparent via-accent/20 to-sky-300/15 rounded-3xl blur-2xl opacity-40 group-hover:opacity-65 transition duration-500 pointer-events-none"
+      >
+      </div>
+      <!-- Profile image sitting flush on the section baseline -->
+      <img
+        src="/profile-pic.webp"
+        alt={name}
+        width="356"
+        height="505"
+        fetchpriority="high"
+        decoding="async"
+        class="relative block theme-profile-photo align-bottom mb-0 drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]"
+      />
+    </div>
+  </div>
+</div>

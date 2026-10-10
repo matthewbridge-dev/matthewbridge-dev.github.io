@@ -1,51 +1,46 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import { Github, Globe } from "@lucide/astro";
-import { meta, projects } from "../consts.ts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "../components/projects/ProjectCard.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects");
 ---
 
-<Layout title={meta.projects.title} description={meta.projects.description}>
-  <h2>
-    <span class="fancy-highlight">My Projects</span>
-  </h2>
+<BaseLayout
+  title="Projects"
+  description="Explore technical projects by Matthew Bridge, including computer vision attendance systems, Unity GOAP simulations, and machine learning models."
+>
+  <div class="theme-container py-12">
+    <div class="mb-10">
+      <h1
+        class="text-3xl md:text-5xl font-bold text-text-primary tracking-tight mb-4"
+      >
+        Projects
+      </h1>
 
-  <section class="mt-6 flex flex-col gap-10">
-    {
-      projects.map((proj) => (
-        <div class="flex gap-4">
-          <div class="w-1/10">
-            <Image src={proj.logoImage} alt="Project logo" />
-          </div>
-          <div class="w-9/10">
-            <h3>{proj.title}</h3>
-            <div class="mt-1 flex flex-wrap gap-1">
-              {proj.techs.map((tech) => (
-                <span class="primary-badge">{tech}</span>
-              ))}
-            </div>
-            <p class="text-base-content/80 mt-1">{proj.description}</p>
-            <div class="mt-1 flex gap-2">
-              <a
-                href={proj.sourceHref}
-                target="_blank"
-                class={`btn btn-soft flex-1 ${!proj.sourceHref ? "btn-disabled" : ""}`}
-              >
-                <Github />
-                Source
-              </a>
-              <a
-                href={proj.liveHref}
-                target="_blank"
-                class={`btn btn-soft btn-accent flex-1 ${!proj.liveHref ? "btn-disabled" : ""}`}
-              >
-                <Globe />
-                Live
-              </a>
-            </div>
-          </div>
-        </div>
-      ))
-    }
-  </section>
-</Layout>
+      <p class="text-base md:text-lg font-normal text-text-muted max-w-2xl">
+        Exploring complex problems through code. Here is a selection of my
+        applications, autonomous simulations, and machine learning models.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 theme-card-grid">
+      {
+        allProjects.map((project) => (
+          <ProjectCard
+            imagePath={project.data.imagePath || "/placeholder-project.svg"}
+            title={project.data.title}
+            date={project.data.date}
+            role={project.data.role}
+            description={project.data.description}
+            tags={project.data.technologies || []}
+            githubUrl={project.data.repo}
+            demoUrl={project.data.demo}
+            isPrivate={project.data.isPrivate}
+            privateNote={project.data.privateNote}
+          />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
