@@ -2,7 +2,7 @@
 const pathname = Astro.url.pathname;
 
 const navItems = [
-  { label: "About", href: "/about" },
+  { label: "About", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Experience", href: "/experience" },
 ];
@@ -13,7 +13,7 @@ const navItems = [
 >
   <div class="theme-container flex items-center justify-between">
     <a
-      href="/about"
+      href="/"
       class="text-text-primary font-bold text-lg tracking-tight hover:text-accent transition-colors flex items-center gap-2 group"
     >
       <span
@@ -29,8 +29,11 @@ const navItems = [
       {
         navItems.map((item) => {
           const isActive =
-            pathname === item.href ||
-            (item.href !== "/" && pathname.startsWith(item.href));
+            item.href === "/"
+              ? pathname === "/" ||
+                pathname === "/about" ||
+                pathname === "/about/"
+              : pathname === item.href || pathname.startsWith(item.href);
           return (
             <a
               href={item.href}
